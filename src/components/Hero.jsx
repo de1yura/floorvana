@@ -1,9 +1,24 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
 const Hero = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const heroImages = [
+    '/images/hero_image1.webp',
+    '/images/hero_image2.jpg'
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -17,10 +32,18 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#fdf9f4] via-[#f7efe3] to-[#f0e7da]"
     >
       <div className="absolute inset-0 z-0">
-        <img
-          alt="Close up of artisanal herringbone wooden flooring with sunlight and decorative accents."
-          className="w-full h-full object-cover opacity-70 mix-blend-multiply"
-         src="https://images.unsplash.com/photo-1523419409543-0c1df022bddb?auto=format&fit=crop&w=1600&q=80" />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentImageIndex}
+            alt="Luxury flooring and decorative surfaces"
+            className="w-full h-full object-cover opacity-70 mix-blend-multiply"
+            src={heroImages[currentImageIndex]}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          />
+        </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-r from-[#fdf9f4]/80 via-[#f7efe3]/90 to-transparent pointer-events-none" />
       </div>
 

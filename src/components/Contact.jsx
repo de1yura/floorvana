@@ -107,14 +107,14 @@ const Contact = () => {
                   <Mail className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* Changed icon color */}
                   <div className="ml-4">
                     <p className="text-base text-muted-foreground tracking-wider uppercase">Email</p> {/* Increased p size */}
-                    <p className="text-stone-800 font-medium text-lg">studio@britaniaflooring.com</p> {/* Changed text color */}
+                    <p className="text-stone-800 font-medium text-lg">info@britaniaflodec.co.uk</p> {/* Changed text color */}
                   </div>
                 </div>
                 <div className="flex items-start">
                   <MapPin className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* Changed icon color */}
                   <div className="ml-4">
                     <p className="text-base text-muted-foreground tracking-wider uppercase">Atelier</p> {/* Increased p size */}
-                    <p className="text-stone-800 font-medium text-lg">54 Wigmore Street<br />London W1U 2AU</p> {/* Changed text color */}
+                    <p className="text-stone-800 font-medium text-lg">219 Station Rd<br />Harrow, HA1 2TH<br />London, United Kingdom</p> {/* Changed text color */}
                   </div>
                 </div>
               </div>

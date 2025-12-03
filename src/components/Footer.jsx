@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
               <img
-                src="/britania-logomark.svg"
+                src="/images/logo.png"
                 alt="Britania Flooring & Decoration"
                 className="h-12"
               />

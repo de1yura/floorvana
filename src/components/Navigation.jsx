@@ -46,27 +46,27 @@ const Navigation = () => {
       <nav className="max-w-screen-2xl mx-auto px-6 sm:px-10">
         <div className="flex items-center justify-between h-28">
           <div className="hidden md:flex items-center space-x-10">
-            {navItems.slice(0, 2).map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-stone-500 hover:text-primary transition-colors duration-300 tracking-[0.3em] uppercase">
+            {navItems.slice(0, 2).map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-black hover:text-primary transition-colors duration-300 tracking-[0.3em] uppercase">
                 {item.label}
               </button>)}
           </div>
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex items-center cursor-pointer" onClick={() => scrollToSection('hero')}>
-              <img src="/britania-logomark.svg" alt="Britania Flooring & Decoration logo" className="h-14 w-auto drop-shadow-sm" />
+              <img src="/images/logo.png" alt="Britania Flooring & Decoration logo" className="h-14 w-auto drop-shadow-sm" />
             </div>
           </div>
 
           <div className="hidden md:flex items-center space-x-10">
-            {navItems.slice(2).map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-stone-500 hover:text-primary transition-colors duration-300 tracking-[0.3em] uppercase">
+            {navItems.slice(2).map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-black hover:text-primary transition-colors duration-300 tracking-[0.3em] uppercase">
                 {item.label}
               </button>)}
           </div>
 
           <div className="md:hidden flex-1">
             <button className="flex items-center gap-3" onClick={() => scrollToSection('hero')}>
-              <img src="/britania-logomark.svg" alt="Britania Flooring & Decoration logo" className="h-9 w-auto" />
-              <span className="text-sm font-semibold tracking-[0.2em] text-stone-600 uppercase">Britania</span>
+              <img src="/images/logo.png" alt="Britania Flooring & Decoration logo" className="h-9 w-auto" />
+              <span className="text-sm font-semibold tracking-[0.2em] text-black uppercase">Britania</span>
             </button>
           </div>
           <div className="md:hidden">
@@ -88,7 +88,7 @@ const Navigation = () => {
       height: 0
     }} className="md:hidden bg-white/95 backdrop-blur-lg border-t border-border/70">
           <div className="px-6 pt-2 pb-6 space-y-4 text-center">
-            {navItems.map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="block w-full text-stone-600 hover:text-primary transition-colors duration-300 font-semibold py-3 tracking-[0.4em] uppercase text-xs">
+            {navItems.map(item => <button key={item.id} onClick={() => scrollToSection(item.id)} className="block w-full text-black hover:text-primary transition-colors duration-300 font-semibold py-3 tracking-[0.4em] uppercase text-xs">
                 {item.label}
               </button>)}
           </div>

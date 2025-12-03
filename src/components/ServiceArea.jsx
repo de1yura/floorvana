@@ -3,10 +3,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Navigation } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icon in react-leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
 
 const ServiceArea = () => {
-  const position = [51.5072, -0.1276]; // Central London
-  const serviceRadius = 40233.6; // roughly 25 miles
+  // Coordinates for 219 Station Rd, Harrow, HA1 2TH, London, United Kingdom
+  const position = [51.5800, -0.3340]; // Harrow, London
+  const serviceRadius = 24140.16; // roughly 15 miles in meters
 
   return (
     <section id="service-area" className="py-32 bg-white">
@@ -31,7 +42,7 @@ const ServiceArea = () => {
             </p>
              <div className="flex items-center gap-3 text-primary"> {/* Changed text color */}
                 <Navigation className="h-6 w-6"/> {/* Increased icon size */}
-                <span className="font-semibold text-xl">Serving projects within ~25 miles</span> {/* Increased span size */}
+                <span className="font-semibold text-xl">Serving projects within ~15 miles</span> {/* Increased span size */}
              </div>
           </motion.div>
           <motion.div
@@ -44,12 +55,13 @@ const ServiceArea = () => {
             <MapContainer center={position} zoom={11} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              <Marker position={position}></Marker>
-               <Circle 
+              <Marker position={position} />
+              <Circle 
                 center={position} 
                 radius={serviceRadius}
-                pathOptions={{ color: '#d4a373', fillColor: '#d4a373', fillOpacity: 0.1, weight: 2 }}
+                pathOptions={{ color: '#d4a373', fillColor: '#d4a373', fillOpacity: 0.15, weight: 3 }}
               />
             </MapContainer>
           </motion.div>
