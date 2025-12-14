@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
 const ServiceArea = () => {
   // Coordinates for 219 Station Rd, Harrow, HA1 2TH, London, United Kingdom
   const position = [51.5800, -0.3340]; // Harrow, London
-  const serviceRadius = 24140.16; // roughly 15 miles in meters
+  const serviceRadius = 80467.2; // roughly 50 miles in meters
 
   return (
     <section id="service-area" className="py-32 bg-white">
@@ -42,7 +42,7 @@ const ServiceArea = () => {
             </p>
              <div className="flex items-center gap-3 text-primary"> {/* Changed text color */}
                 <Navigation className="h-6 w-6"/> {/* Increased icon size */}
-                <span className="font-semibold text-xl">Serving projects within ~15 miles</span> {/* Increased span size */}
+                <span className="font-semibold text-xl">Serving projects within ~50 miles</span> {/* Increased span size */}
              </div>
           </motion.div>
           <motion.div
