@@ -182,6 +182,32 @@ export const projects = [
       'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80',
     ],
   },
+  {
+    id: 'luxury-carpet-installations',
+    title: 'Luxury Carpet Installations',
+    category: 'Residential',
+    description: 'Premium carpet installations featuring high-end materials and expert craftsmanship for luxurious comfort and sophisticated aesthetics.',
+    image: '/images/gallery5.png',
+    mainImage: '/images/gallery5.png',
+    completionDate: 'December 2024',
+    location: 'London, UK',
+    size: '2,500 sq ft',
+    highlights: [
+      'Premium wool and silk blend carpets',
+      'Expert pattern matching and seam work',
+      'Custom underlay for enhanced comfort',
+      'Precision cutting and installation',
+      'Eco-friendly and sustainable materials',
+    ],
+    gallery: [
+      '/images/gallery5.png',
+      '/images/gallery5.png',
+      '/images/gallery5.png',
+      '/images/gallery5.png',
+      '/images/gallery5.png',
+      '/images/gallery5.png',
+    ],
+  },
 ];
 
 export const getProjectById = (id) => {

@@ -89,14 +89,15 @@ const Gallery = () => {
         </div>
 
         <div className="flex justify-center mt-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-fit">
+          <div className="flex flex-wrap md:flex-nowrap justify-center gap-4">
             {gallerySlides.map((slide, index) => (
               <button
                 key={slide.id}
                 onClick={() => setActiveIndex(index)}
-                className={`group relative overflow-hidden rounded-2xl border ${
+                className={`group relative overflow-hidden rounded-2xl border flex-shrink-0 ${
                   index === activeIndex ? 'border-primary' : 'border-transparent'
                 }`}
+                style={{ width: '120px', minWidth: '120px' }}
               >
                 <img src={slide.image} alt={slide.title} className="h-24 w-full object-cover opacity-80 group-hover:opacity-100 transition" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center px-3 text-xs text-white text-center leading-snug">
