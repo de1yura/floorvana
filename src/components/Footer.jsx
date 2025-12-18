@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Building2 } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -41,7 +41,18 @@ const Footer = () => {
                     href="tel:+447360095207" 
                     className="text-stone-700 hover:text-primary transition-colors text-base font-light"
                   >
-                    +44 7360 095207
+                    07360 095207
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <Building2 className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                <div className="ml-3">
+                  <a 
+                    href="tel:02033456228" 
+                    className="text-stone-700 hover:text-primary transition-colors text-base font-light"
+                  >
+                    020 3345 6228
                   </a>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -100,7 +100,14 @@ const Contact = () => {
                   <Phone className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* Changed icon color */}
                   <div className="ml-4">
                     <p className="text-base text-muted-foreground tracking-wider uppercase">Phone</p> {/* Increased p size */}
-                    <p className="text-stone-800 font-medium text-lg">+44 7360 095207</p> {/* Changed text color */}
+                    <p className="text-stone-800 font-medium text-lg"> 07360 095207</p> {/* Changed text color */}
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Building2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* Office icon */}
+                  <div className="ml-4">
+                    <p className="text-base text-muted-foreground tracking-wider uppercase">Office</p> {/* Increased p size */}
+                    <p className="text-stone-800 font-medium text-lg">020 3345 6228</p> {/* Office number */}
                   </div>
                 </div>
                 <div className="flex items-start">
