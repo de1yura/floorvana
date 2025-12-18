@@ -1,45 +1,111 @@
 
 import React from 'react';
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="bg-white border-t border-border/60">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          {/* Logo and Company Info */}
+          <div className="lg:col-span-2">
+            <div className="mb-6">
               <img
                 src="/images/logo.png"
                 alt="Britania Flooring & Decoration"
-                className="h-12"
+                className="h-14 w-auto"
               />
-              <div>
-                <p className="text-xs tracking-[0.4em] uppercase text-stone-500">Britania</p>
-                <p className="text-xl font-semibold text-stone-800">Flooring &amp; Decoration</p>
-              </div>
             </div>
-            <p className="text-base text-muted-foreground font-light"> {/* Increased p size */}
-              © {currentYear} Britania Flooring &amp; Decoration. Crafted in London.
+            <p className="text-base text-stone-600 font-light leading-relaxed max-w-md">
+              Curating premium flooring, surface design, and decorative installations for residences and professional spaces throughout Greater London.
             </p>
           </div>
 
-          <div className="flex space-x-6">
-            <a href="#" className="text-stone-400 hover:text-primary transition-colors" aria-label="Facebook">
-              <Facebook className="h-6 w-6" /> {/* Increased icon size */}
-            </a>
-            <a href="#" className="text-stone-400 hover:text-primary transition-colors" aria-label="Instagram">
-              <Instagram className="h-6 w-6" /> {/* Increased icon size */}
-            </a>
-            <a href="#" className="text-stone-400 hover:text-primary transition-colors" aria-label="Twitter">
-              <Twitter className="h-6 w-6" /> {/* Increased icon size */}
-            </a>
-            <a href="#" className="text-stone-400 hover:text-primary transition-colors" aria-label="LinkedIn">
-              <Linkedin className="h-6 w-6" /> {/* Increased icon size */}
-            </a>
+          {/* Contact Information */}
+          <div>
+            <h3 className="text-lg font-semibold text-stone-800 mb-6 tracking-wider uppercase">Contact</h3>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                <div className="ml-3">
+                  <a 
+                    href="tel:+447360095207" 
+                    className="text-stone-700 hover:text-primary transition-colors text-base font-light"
+                  >
+                    +44 7360 095207
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <Mail className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                <div className="ml-3">
+                  <a 
+                    href="mailto:britaniaflodec@gmail.com" 
+                    className="text-stone-700 hover:text-primary transition-colors text-base font-light break-words"
+                  >
+                    britaniaflodec@gmail.com
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                <div className="ml-3">
+                  <p className="text-stone-700 text-base font-light leading-relaxed">
+                    219 Station Rd<br />
+                    Harrow, HA1 2TH<br />
+                    London, United Kingdom
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold text-stone-800 mb-6 tracking-wider uppercase">Quick Links</h3>
+            <nav className="space-y-3">
+              <button
+                onClick={() => scrollToSection('hero')}
+                className="block text-stone-600 hover:text-primary transition-colors text-base font-light text-left"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => scrollToSection('gallery')}
+                className="block text-stone-600 hover:text-primary transition-colors text-base font-light text-left"
+              >
+                Gallery
+              </button>
+              <button
+                onClick={() => scrollToSection('storefront')}
+                className="block text-stone-600 hover:text-primary transition-colors text-base font-light text-left"
+              >
+                Visit Us
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="block text-stone-600 hover:text-primary transition-colors text-base font-light text-left"
+              >
+                Contact
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="pt-8 border-t border-border/50">
+          <p className="text-center text-sm text-muted-foreground font-light">
+            © {currentYear} Britania Flooring &amp; Decoration. All rights reserved. Crafted in London.
+          </p>
         </div>
       </div>
     </footer>

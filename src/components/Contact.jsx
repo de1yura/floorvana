@@ -107,7 +107,7 @@ const Contact = () => {
                   <Mail className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* Changed icon color */}
                   <div className="ml-4">
                     <p className="text-base text-muted-foreground tracking-wider uppercase">Email</p> {/* Increased p size */}
-                    <p className="text-stone-800 font-medium text-lg">info@britaniaflodec.co.uk</p> {/* Changed text color */}
+                    <p className="text-stone-800 font-medium text-lg">britaniaflodec@gmail.com</p> {/* Changed text color */}
                   </div>
                 </div>
                 <div className="flex items-start">

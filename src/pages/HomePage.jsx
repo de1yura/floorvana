@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import ServiceArea from '@/components/ServiceArea';
 import Gallery from '@/components/Gallery';
+import Storefront from '@/components/Storefront';
 import Contact from '@/components/Contact';
 
 const HomePage = () => {
@@ -24,6 +25,7 @@ const HomePage = () => {
       <Services />
       <ServiceArea />
       <Gallery />
+      <Storefront />
       <Contact />
     </>
   );
