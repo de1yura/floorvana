@@ -16,24 +16,47 @@ const Contact = () => {
     message: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-    contacts.push({
-      ...formData,
-      date: new Date().toISOString(),
-    });
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-
-    toast({
-      title: 'Message received',
-      description: 'Thank you for connecting with Britania. Our studio concierge will respond within one business day.',
-      className: 'bg-white border border-border text-foreground rounded-2xl'
-    });
-
-    setFormData({ name: '', email: '', message: '' });
+  
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('message', formData.message);
+  
+      // honeypot field (must match contact.php)
+      formDataToSend.append('company', '');
+  
+      const res = await fetch('/contact.php', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+  
+      if (!res.ok) {
+        throw new Error('Failed to send');
+      }
+  
+      toast({
+        title: 'Message received',
+        description:
+          'Thank you for connecting with Britania. Our studio concierge will respond within one business day.',
+        className:
+          'bg-white border border-border text-foreground rounded-2xl',
+      });
+  
+      setFormData({ name: '', email: '', message: '' });
+  
+    } catch (err) {
+      toast({
+        title: 'Something went wrong',
+        description:
+          'Please try again later or contact us directly.',
+        variant: 'destructive',
+      });
+    }
   };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
