@@ -28,7 +28,7 @@ const Contact = () => {
       // honeypot field (must match contact.php)
       formDataToSend.append('company', '');
   
-      const res = await fetch('/server/Contact.php', {
+      const res = await fetch('/server/contact.php', {
         method: 'POST',
         body: formDataToSend,
       });
