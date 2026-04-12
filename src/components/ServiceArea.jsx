@@ -1,0 +1,74 @@
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MapPin, Navigation } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icon in react-leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
+
+const ServiceArea = () => {
+  // Coordinates for 219 Station Rd, Harrow, HA1 2TH, London, United Kingdom
+  const position = [51.5800, -0.3340]; // Harrow, London
+  const serviceRadius = 80467.2; // roughly 50 miles in meters
+
+  return (
+    <section id="service-area" className="py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h2 className="text-5xl md:text-6xl gold-text mb-6">Where we install</h2> {/* Increased h2 size */}
+            <div className="flex items-center gap-3 mb-4">
+              <MapPin className="h-8 w-8 text-primary" /> {/* Changed icon color */}
+              <p className="text-3xl text-stone-800"> {/* Changed text color */}
+                Greater London &amp; Home Counties
+              </p>
+            </div>
+            <p className="text-xl text-muted-foreground font-light mb-8 max-w-lg leading-relaxed"> {/* Increased p size */}
+              We operate from our London atelier, partnering with estate owners, developers, and design studios within a curated radius.
+              Concentrated geography ensures each installation receives senior craftsmanship and white-glove care.
+            </p>
+             <div className="flex items-center gap-3 text-primary"> {/* Changed text color */}
+                <Navigation className="h-6 w-6"/> {/* Increased icon size */}
+                <span className="font-semibold text-xl">Serving projects within ~50 miles</span> {/* Increased span size */}
+             </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="h-96 w-full overflow-hidden border border-border bg-white rounded-3xl"
+          >
+            <MapContainer center={position} zoom={11} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={position} />
+              <Circle 
+                center={position} 
+                radius={serviceRadius}
+                pathOptions={{ color: '#d4a373', fillColor: '#d4a373', fillOpacity: 0.15, weight: 3 }}
+              />
+            </MapContainer>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ServiceArea;
