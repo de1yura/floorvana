@@ -3,13 +3,13 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://sukurali.github.io",
+  "homepage": "https://britaniaflodec.co.uk",
   "scripts": {
     "dev": "vite --host :: --port 3000",
     "build": "vite build",
     "preview": "vite preview --host :: --port 3000",
     "predeploy": "npm run build",
-    "update-all": "git add . && git commit -m \"Site updated\" && git push origin main && npm run deploy",
+    "update-all": "git add . && git commit -m \"Site updated\" && git push origin main:master",
     "deploy": "gh-pages -d dist"
     
   },
