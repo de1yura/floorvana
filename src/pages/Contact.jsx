@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async'; // Updated import
+import React, { useState, useRef } from 'react'; // useRef যোগ করা হয়েছে
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Building2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Building2, Loader2 } from 'lucide-react'; // Loader2 যোগ করা হয়েছে
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import emailjs from '@emailjs/browser'; // EmailJS ইম্পোর্ট
 
 const Contact = () => {
   const { toast } = useToast();
+  const formRef = useRef(); // ফর্মের জন্য রেফারেন্স
+  const [loading, setLoading] = useState(false); // লোডিং স্টেট
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   });
 
-  // Schema JSON-LD Data
   const contactSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -31,38 +33,25 @@ const Contact = () => {
       "addressLocality": "Harrow",
       "postalCode": "HA1 2TH",
       "addressCountry": "GB"
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        "opens": "10:00",
-        "closes": "18:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Sunday",
-        "opens": "11:00",
-        "closes": "17:00"
-      }
-    ]
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    // ✅ EmailJS কনফিগারেশন (আপনার ড্যাশবোর্ড থেকে এগুলো সংগ্রহ করুন)
+    const SERVICE_ID = "service_otl43n4"; 
+    const TEMPLATE_ID = "template_fcfrrrt";
+    const PUBLIC_KEY = "7388ZkdJS4B0AxoHb";
+
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('message', formData.message);
-      formDataToSend.append('company', ''); // honeypot
-
-      const res = await fetch('/contact.php', {
-        method: 'POST',
-        body: formDataToSend,
-      });
-
-      if (!res.ok) throw new Error('Failed to send');
+      await emailjs.sendForm(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        formRef.current,
+        PUBLIC_KEY
+      );
 
       toast({
         title: 'Message received',
@@ -72,11 +61,14 @@ const Contact = () => {
 
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {
+      console.error(err);
       toast({
         title: 'Something went wrong',
-        description: 'Please try again later or contact us directly.',
+        description: 'Please try again later or contact us via phone/email directly.',
         variant: 'destructive',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,19 +80,13 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Contact Us | Britania Flooring & Decoration</title>
-        <meta
-          name="description"
-          content="Contact Britania Flooring and Decor for luxury flooring services including carpet, wood, laminate, vinyl and tiles in Harrow, London."
-        />
-        {/* ✅ Schema JSON-LD properly stringified with react-helmet-async */}
+        <meta name="description" content="Contact Britania Flooring and Decor for luxury flooring services." />
         <script type="application/ld+json">
           {JSON.stringify(contactSchema)}
         </script>
       </Helmet>
 
-      {/* 🔽 UI SECTION (KEEP AS IS) */}
       <section id="contact" className="py-32 bg-[#f8f1e7]">
-        {/* ... আপনার আগের সব UI কোড এখানে থাকবে ... */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -111,7 +97,7 @@ const Contact = () => {
           >
             <h2 className="text-5xl md:text-6xl gold-text mb-4">Request a private consultation</h2>
             <p className="text-xl text-stone-600 max-w-3xl mx-auto font-light">
-              Share your ambitions and timelines and we will arrange a tailored presentation of samples and concepts.
+              Share your ambitions and timelines and we will arrange a tailored presentation.
             </p>
           </motion.div>
 
@@ -123,7 +109,8 @@ const Contact = () => {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="lg:col-span-3"
             >
-              <form onSubmit={handleSubmit} className="space-y-8">
+              {/* ✅ formRef যুক্ত করা হয়েছে */}
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
                     <Label htmlFor="name" className="text-stone-600 tracking-wider text-base">Full Name</Label>
@@ -137,11 +124,23 @@ const Contact = () => {
 
                 <div>
                   <Label htmlFor="message" className="text-stone-600 tracking-wider text-base">Project Details</Label>
-                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={6} className="mt-2 resize-none text-lg bg-white border-border rounded-2xl" placeholder="Tell us about your space, inspiration, and timelines..." />
+                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={6} className="mt-2 resize-none text-lg bg-white border-border rounded-2xl" placeholder="Tell us about your space..." />
                 </div>
 
-                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-16 px-12 text-lg tracking-[0.3em] font-light rounded-full uppercase">
-                  Submit Request
+                {/* ✅ বাটনটি সাবমিট করার সময় ডিজেবল হবে */}
+                <Button 
+                  type="submit" 
+                  disabled={loading}
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-16 px-12 text-lg tracking-[0.3em] font-light rounded-full uppercase"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Submit Request"
+                  )}
                 </Button>
               </form>
             </motion.div>
@@ -160,7 +159,7 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> 
                     <div className="ml-4">
                       <p className="text-base text-muted-foreground tracking-wider uppercase">Phone</p>
-                      <p className="text-stone-800 font-medium text-lg"> 07360 095207</p>
+                      <p className="text-stone-800 font-medium text-lg">07360 095207</p>
                     </div>
                   </div>
                   <div className="flex items-start">

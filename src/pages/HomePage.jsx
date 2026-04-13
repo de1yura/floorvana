@@ -51,7 +51,7 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Britania Flooring & Decoration | Luxury Surfaces</title>
+        <title>Britania Flooring & Decoration | Luxury Surfacess</title>
 
         <meta
           name="description"
@@ -80,7 +80,6 @@ const HomePage = () => {
       <Partners />
       <Testimonials />
       <Storefront />
-      <Contact />
     </>
   );
 };
