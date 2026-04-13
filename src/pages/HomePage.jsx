@@ -74,7 +74,7 @@ const HomePage = () => {
       {/* Page Components */}
       <Hero />
       <StatsSection />
-      <Services /> {/* Services component add kora holo jodi thake */}
+      <Services />
       <ServiceArea />
       <Gallery />
       <Partners />
