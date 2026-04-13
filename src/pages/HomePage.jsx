@@ -51,7 +51,7 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Britania Flooring & Decoration | Luxury Surfacess</title>
+        <title>Britania Flooring & Decoration | Luxury Surfaces</title>
 
         <meta
           name="description"

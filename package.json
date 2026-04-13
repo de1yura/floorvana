@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --host :: --port 3000",
     "predeploy": "npm run build",
-    "update-all": "git add . && git commit -m \"Site updated\" && git push origin main && npm run deploy",
+    "update-all": "git add . && git commit -m \"Site updated\" && git push -f origin main:master",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
