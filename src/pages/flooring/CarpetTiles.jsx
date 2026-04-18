@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async'; // Updated to react-helmet-async
+import React, { useState, useEffect, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, X, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import FlooringHero from "@/components/FlooringHero";
@@ -33,7 +33,6 @@ const CarpetTiles = () => {
     "/images/carpet_tiles/carpet_tiles4.png",
   ];
 
-  // Schema Data Object
   const carpetTilesSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -60,15 +59,15 @@ const CarpetTiles = () => {
     }
   };
 
-  const showNext = (e) => {
+  const showNext = useCallback((e) => {
     e?.stopPropagation();
     setCurrentIndex((prev) => (prev + 1 === galleryImages.length ? 0 : prev + 1));
-  };
+  }, [galleryImages.length]);
 
-  const showPrev = (e) => {
+  const showPrev = useCallback((e) => {
     e?.stopPropagation();
     setCurrentIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
-  };
+  }, [galleryImages.length]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -79,19 +78,16 @@ const CarpetTiles = () => {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex]);
+  }, [currentIndex, showNext, showPrev]);
 
   return (
     <>
-      {/* SEO + Schema */}
       <Helmet>
         <title>Carpet Tiles Flooring | Britania Flooring & Decoration</title>
         <meta
           name="description"
           content="Carpet tile flooring supply and installation services in Harrow, London. Durable, flexible and cost-effective solutions by Britania Flooring and Decor."
         />
-
-        {/* ✅ Schema JSON-LD properly stringified */}
         <script type="application/ld+json">
           {JSON.stringify(carpetTilesSchema)}
         </script>
@@ -138,7 +134,10 @@ const CarpetTiles = () => {
                   className="relative group cursor-pointer aspect-[4/3] overflow-hidden rounded-xl shadow-md"
                   onClick={() => setCurrentIndex(index)}
                 >
-                  <img src={img} alt="Installation" className="w-full h-full object-cover" />
+                  <img src={img} alt="Installation Showcase" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <Maximize2 className="text-white w-8 h-8" />
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -148,10 +147,44 @@ const CarpetTiles = () => {
         <AnimatePresence>
           {currentIndex !== null && (
             <motion.div
-              className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 md:p-12"
               onClick={() => setCurrentIndex(null)}
             >
-              <img src={galleryImages[currentIndex]} className="max-h-[80vh]" alt="view" />
+              {/* Close Button */}
+              <button 
+                onClick={(e) => { e.stopPropagation(); setCurrentIndex(null); }}
+                className="absolute top-4 right-4 md:top-8 md:right-8 text-white/70 hover:text-white z-[110] p-2 bg-black/20 rounded-full"
+              >
+                <X size={32} />
+              </button>
+
+              {/* Prev Button */}
+              <button onClick={showPrev} className="absolute left-2 md:left-6 text-white/50 hover:text-white z-[110]">
+                <ChevronLeft size={48} />
+              </button>
+
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="relative w-full h-full flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img 
+                  src={galleryImages[currentIndex]} 
+                  className="max-w-full max-h-[80vh] md:max-h-[85vh] rounded-lg shadow-2xl object-contain" 
+                  alt="Enlarged Showcase" 
+                />
+              </motion.div>
+
+              {/* Next Button */}
+              <button onClick={showNext} className="absolute right-2 md:right-6 text-white/50 hover:text-white z-[110]">
+                <ChevronRight size={48} />
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

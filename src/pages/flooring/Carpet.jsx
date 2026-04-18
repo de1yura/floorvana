@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async'; // Updated to react-helmet-async
+import React, { useState, useEffect, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, X, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import FlooringHero from "@/components/FlooringHero";
@@ -27,7 +27,6 @@ const Carpet = () => {
     "/images/carpet/carpet3.jpeg",
   ];
 
-  // Schema Data Object
   const carpetSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -54,29 +53,37 @@ const Carpet = () => {
     }
   };
 
-  const showPrev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? galleryImages.length - 1 : prev - 1
-    );
-  };
+  // Navigation Logic
+  const showPrev = useCallback((e) => {
+    if (e) e.stopPropagation();
+    setCurrentIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+  }, [galleryImages.length]);
 
-  const showNext = () => {
-    setCurrentIndex((prev) =>
-      prev === galleryImages.length - 1 ? 0 : prev + 1
-    );
-  };
+  const showNext = useCallback((e) => {
+    if (e) e.stopPropagation();
+    setCurrentIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+  }, [galleryImages.length]);
+
+  // Keyboard Support
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (currentIndex === null) return;
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'Escape') setCurrentIndex(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentIndex, showPrev, showNext]);
 
   return (
     <>
-      {/* ✅ SEO + Schema */}
       <Helmet>
         <title>Carpet Flooring | Britania Flooring & Decoration</title>
         <meta
           name="description"
           content="Luxury carpet flooring supply and installation services in Harrow, London. Premium materials and expert fitting by Britania Flooring and Decor."
         />
-
-        {/* ✅ Schema JSON-LD properly stringified */}
         <script type="application/ld+json">
           {JSON.stringify(carpetSchema)}
         </script>
@@ -124,7 +131,7 @@ const Carpet = () => {
                   className="relative group cursor-pointer aspect-[4/3] overflow-hidden rounded-xl shadow-md"
                   onClick={() => setCurrentIndex(index)}
                 >
-                  <img src={img} alt="Installation" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <img src={img} alt={`Installation ${index + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Maximize2 className="text-white w-8 h-8" />
                   </div>
@@ -142,29 +149,45 @@ const Carpet = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setCurrentIndex(null)}
-              className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+              className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 md:p-12"
             >
-              <button className="absolute top-6 right-6 text-white/70 hover:text-white z-[110]">
-                <X size={40} />
+              {/* Close Button - positioned to avoid overlap */}
+              <button 
+                onClick={(e) => { e.stopPropagation(); setCurrentIndex(null); }}
+                className="absolute top-4 right-4 md:top-8 md:right-8 text-white/70 hover:text-white z-[110] p-2 bg-black/20 rounded-full transition-colors"
+              >
+                <X size={32} />
               </button>
 
-              <button onClick={showPrev} className="absolute left-4 md:left-10 text-white/50 hover:text-white z-[110]">
+              {/* Prev Button */}
+              <button 
+                onClick={showPrev} 
+                className="absolute left-2 md:left-6 text-white/50 hover:text-white z-[110] transition-colors p-2"
+              >
                 <ChevronLeft size={48} />
               </button>
 
+              {/* Image Container - Using max-h-[85vh] to leave room for gaps */}
               <motion.div
                 key={currentIndex}
-                className="relative max-w-5xl max-h-[80vh]"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="relative w-full h-full flex items-center justify-center pointer-events-none"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
                   src={galleryImages[currentIndex]}
-                  className="max-w-full max-h-[80vh] rounded-lg"
-                  alt="Enlarged"
+                  className="max-w-full max-h-[80vh] md:max-h-[85vh] rounded-lg shadow-2xl object-contain pointer-events-auto"
+                  alt="Enlarged Installation"
                 />
               </motion.div>
 
-              <button onClick={showNext} className="absolute right-4 md:right-10 text-white/50 hover:text-white z-[110]">
+              {/* Next Button */}
+              <button 
+                onClick={showNext} 
+                className="absolute right-2 md:right-6 text-white/50 hover:text-white z-[110] transition-colors p-2"
+              >
                 <ChevronRight size={48} />
               </button>
             </motion.div>
